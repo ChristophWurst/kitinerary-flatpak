@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace ChristophWurst\KItinerary\Bin;
+namespace ChristophWurst\KItinerary\Flatpak;
 
 use ChristophWurst\KItinerary\Adapter;
 use ChristophWurst\KItinerary\Exception\KItineraryRuntimeException;
