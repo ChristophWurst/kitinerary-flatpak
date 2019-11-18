@@ -27,8 +27,11 @@ namespace ChristophWurst\KItinerary\Flatpak;
 
 use ChristophWurst\KItinerary\Adapter;
 use ChristophWurst\KItinerary\Exception\KItineraryRuntimeException;
+use function explode;
 use function fclose;
 use function fwrite;
+use function in_array;
+use function ini_get;
 use function is_array;
 use function is_resource;
 use function json_decode;
@@ -43,6 +46,10 @@ class FlatpakAdapter implements Adapter
 	private static $isAvailable = null;
 
 	private function isFlatpakAvailable(): bool {
+		if (in_array('proc_open', explode(',', ini_get('disable_functions')), true)) {
+			return false;
+		}
+
 		$descriptors = [
 			0 => ['pipe', 'r'],
 			1 => ['pipe', 'w']
