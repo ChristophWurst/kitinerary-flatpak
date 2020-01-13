@@ -1,20 +1,27 @@
-# kitinerary
+# kitinerary-flatpak
 
-[KDE itinerary extractor](https://github.com/KDE/itinerary) for php. This package does not provide the bindings to the C++ applications. Use the [binary adapter](https://packagist.org/packages/christophwurst/kitinerary-bin) and [Flatpak adapter](https://packagist.org/packages/christophwurst/kitinerary-flatpak) in combination with this package.
+Flatpak adapter for the [kitinerary extractor package](https://packagist.org/packages/christophwurst/kitinerary). This package provides an adapter that invokes [kitinerary-extractor](https://github.com/KDE/itinerary) via Flatpak.
 
 ## Installation
 
+See [the KDE itinerary wiki for the Flatpak](https://community.kde.org/KDE_PIM/KDE_Itinerary#Plasma_Mobile.2C_Flatpak) installation instructions.
+
 ```sh
-composer require christophwurst/kitinerary
+composer require christophwurst/kitinerary christophwurst/kitinerary-flatpak
 ```
 
 ## Usage
 
 ```php
 use ChristophWurst\KItinerary\ItineraryExtractor;
+use ChristophWurst\KItinerary\Flatpak\FlatpakAdapter;
 use ChristophWurst\KItinerary\Exception\KItineraryRuntimeException;
 
-$extractor = new Extractor(/* adapter instance */);
+$adapter = new FlatpakAdapter();
+if (!$adapter->isAvailable()) {
+    // ...
+}
+$extractor = new Extractor($adapter);
 
 try {
     $itinerary = $extractor->extractFromString('...');
