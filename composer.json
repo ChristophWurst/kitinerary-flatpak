@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "christophwurst/kitinerary": "0.2.0",
+        "christophwurst/kitinerary": "^0.2",
         "ext-json": "*"
     },
     "autoload": {
