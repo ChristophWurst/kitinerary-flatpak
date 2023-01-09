@@ -27,6 +27,9 @@ namespace ChristophWurst\KItinerary\Flatpak;
 
 use ChristophWurst\KItinerary\Adapter;
 use ChristophWurst\KItinerary\Exception\KItineraryRuntimeException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use function explode;
 use function fclose;
 use function fwrite;
@@ -40,10 +43,28 @@ use function proc_close;
 use function proc_open;
 use function stream_get_contents;
 
-class FlatpakAdapter implements Adapter
+class FlatpakAdapter implements Adapter, LoggerAwareInterface
 {
 
 	private static $isAvailable = null;
+
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = new NullLogger();
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
 	private function isFlatpakAvailable(): bool {
 		if (in_array('proc_open', explode(',', ini_get('disable_functions')), true)) {
